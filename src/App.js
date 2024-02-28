@@ -3,7 +3,7 @@ import Tetris from "./components/Tetris";
 
 const App = () => {
 	return (
-		<div className="App">
+		<div className="Pieters Amazing Tetris game">
 			<Tetris />
 		</div>
 	);
