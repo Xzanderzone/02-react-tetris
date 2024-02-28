@@ -9,7 +9,7 @@ export const usePlayer = () => {
 		tetromino: TETROMINOS[0].shape,
 		collided: false,
 	});
-
+	//matrix = tetromino
 	function rotate(matrix, dir) {
 		// Make the rows to become cols (transpose)
 		const mtrx = matrix.map((_, index) => matrix.map((column) => column[index]));
@@ -39,7 +39,7 @@ export const usePlayer = () => {
 	const updatePlayerPos = ({ x, y, collided }) => {
 		setPlayer((prev) => ({
 			...prev,
-			pos: { x: (prev.pos.x += x), y: (prev.pos.y += y) },
+			pos: { x: prev.pos.x + x, y: prev.pos.y + y },
 			collided,
 		}));
 	};
