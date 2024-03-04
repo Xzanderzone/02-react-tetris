@@ -11,6 +11,7 @@ import { useGameStatus } from "../hooks/useGameStatus";
 import Stage from "./Stage";
 import Display from "./Display";
 import StartButton from "./StartButton";
+import NextTetronomio from "./NextTetronomio";
 
 const Tetris = () => {
 	const [dropTime, setDropTime] = useState(null);
@@ -45,7 +46,6 @@ const Tetris = () => {
 			updatePlayerPos({ x: 0, y: 1, collided: false });
 		} else {
 			if (player.pos.y < 1) {
-				console.log("game over");
 				setGameOver(true);
 				setDropTime(null);
 			}
@@ -57,6 +57,11 @@ const Tetris = () => {
 			if (keyCode === 40) {
 				setDropTime(1000 / (level + 1) + 200);
 			}
+			//pause game
+			// if (keyCode === 27) {
+			// 	if (dropTime != null) setDropTime(null);
+			// 	else setDropTime(1000 / (level + 1) + 200);
+			// }
 		}
 	};
 	const dropPlayer = () => {
@@ -95,12 +100,28 @@ const Tetris = () => {
 							<Display text={`Final Score: ${score}`} />
 							<Display text={`Total Rows: ${rows}`} />
 							<Display text={`Reached Level: ${level}`} />
+							{(localStorage.getItem("score") || 0) < score
+								? localStorage.setItem("score", score)
+								: ""}
+
+							<Display
+								text={`Highscore: ${
+									localStorage.getItem("score") ? localStorage.getItem("score") : "0"
+								}`}
+							/>
 						</div>
 					) : (
 						<div>
+							{/* {dropTime == null ? <Display text={`Game Paused!`} /> : ""} */}
+							<NextTetronomio tetronomino={player.nextTetromino} />
 							<Display text={`Score: ${score}`} />
 							<Display text={`Rows: ${rows}`} />
 							<Display text={`Level: ${level}`} />
+							<Display
+								text={`Highscore: ${
+									localStorage.getItem("score") ? localStorage.getItem("score") : "0"
+								}`}
+							/>
 						</div>
 					)}
 					<StartButton callback={startGame} />

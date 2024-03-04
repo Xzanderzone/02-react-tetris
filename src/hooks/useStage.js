@@ -15,7 +15,6 @@ export const useStage = (player, resetPlayer) => {
 					SetRowsCleared((prev) => prev + 1);
 					//add new empty line in ack(ackumulator= new field without cleared row)
 					ack.unshift(new Array(newStage[0].length).fill([0, "clear"]));
-					console.log("row cleared");
 					return ack;
 				}
 				ack.push(row);
