@@ -16,7 +16,7 @@ import NextTetronomio from "./NextTetronomio";
 const Tetris = () => {
 	const [dropTime, setDropTime] = useState(null);
 	const [gameOver, setGameOver] = useState(false);
-
+	const [paused, setPaused] = useState(false);
 	const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
 	const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
 	const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
@@ -57,12 +57,11 @@ const Tetris = () => {
 			if (keyCode === 40) {
 				setDropTime(1000 / (level + 1) + 200);
 			}
-			//pause game
-			// if (keyCode === 27) {
-			// 	if (dropTime != null) setDropTime(null);
-			// 	else setDropTime(1000 / (level + 1) + 200);
-			// }
-		}
+			// pause game
+			if (keyCode === 27) {
+				setPaused(!paused);
+			}
+		} else if (keyCode === 40) startGame();
 	};
 	const dropPlayer = () => {
 		setDropTime(null);
@@ -70,7 +69,7 @@ const Tetris = () => {
 	};
 
 	const move = ({ keyCode }) => {
-		if (!gameOver) {
+		if (!gameOver && !paused) {
 			if (keyCode === 37) {
 				movePlayer(-1);
 			} else if (keyCode === 39) {
@@ -86,7 +85,7 @@ const Tetris = () => {
 	};
 
 	useInterval(() => {
-		drop();
+		if (!paused) drop();
 	}, dropTime);
 
 	return (
@@ -112,16 +111,12 @@ const Tetris = () => {
 						</div>
 					) : (
 						<div>
-							{/* {dropTime == null ? <Display text={`Game Paused!`} /> : ""} */}
+							{paused ? <Display text={`Game Paused!`} /> : ""}
 							<NextTetronomio tetronomino={player.nextTetromino} />
 							<Display text={`Score: ${score}`} />
 							<Display text={`Rows: ${rows}`} />
 							<Display text={`Level: ${level}`} />
-							<Display
-								text={`Highscore: ${
-									localStorage.getItem("score") ? localStorage.getItem("score") : "0"
-								}`}
-							/>
+							<Display text={`Highscore: ${localStorage.getItem("score") || "0"}`} />
 						</div>
 					)}
 					<StartButton callback={startGame} />

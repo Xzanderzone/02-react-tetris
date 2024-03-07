@@ -7,15 +7,13 @@ const NextTetromino = ({ tetronomino }) => (
 		<StyledNextDisplay width={4} height={4}>
 			{tetronomino.shape.map((row, y) => {
 				return row.map((value, x) => {
-					//dont render 4th array for straight line (dispaly 3x3)
-					// if (tetronomino.shape.length === 4 && x == 3) return;
 					if (tetronomino.shape.length <= 3 && x == 0 && y == 0)
 						return (
 							<>
-								<Cell key={"padded" + y} type={0} />
-								<Cell key={"padded" + y} type={0} />
-								<Cell key={"padded" + y} type={0} />
-								<Cell key={"padded" + y} type={0} />
+								<Cell key={"padded0" + y} type={0} />
+								<Cell key={"padded1" + y} type={0} />
+								<Cell key={"padded2" + y} type={0} />
+								<Cell key={"padded3" + y} type={0} />
 								<Cell key={"next" + y} type={value} />
 							</>
 						);
@@ -31,8 +29,8 @@ const NextTetromino = ({ tetronomino }) => (
 						return (
 							<>
 								<Cell key={"next" + y} type={value} />
-								<Cell key={"padded" + y} type={0} />
-								<Cell key={"padded" + y} type={0} />
+								<Cell key={"padded0" + y} type={0} />
+								<Cell key={"padded1" + y} type={0} />
 							</>
 						);
 					return <Cell key={"next" + x} type={value} />;
